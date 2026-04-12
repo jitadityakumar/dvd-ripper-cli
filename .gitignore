@@ -1,0 +1,34 @@
+# Local context — never commit
+context.md
+
+# Local config — never commit
+config.toml
+
+# Logs
+dvd-ripper.log
+last-scan.log
+
+# Dev notes
+plan.md
+
+# Claude Code local settings
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor
+.vscode/
+.idea/
+*.swp

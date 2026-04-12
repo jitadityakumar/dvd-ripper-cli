@@ -1,0 +1,16 @@
+[paths]
+movies_dir = "/mnt/media/Movies"
+tv_dir     = "/mnt/media/TV"
+device     = "/dev/sr0"
+
+[encoding]
+video_encoder = "qsv_h265"
+audio_encoder = "av_aac"
+rf            = 20
+output_format = "mp4"
+
+[tv]
+min_episode_duration_seconds = 900    # 15 min — filters menus/extras
+
+[movie]
+min_feature_duration_seconds = 3600   # 60 min — ignores short bonus titles
