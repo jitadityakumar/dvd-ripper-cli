@@ -56,8 +56,8 @@ Edit `config.toml` to set your output directories, device path, and encoding set
 
 ```toml
 [paths]
-movies_dir = "/mnt/network01/Media/Movies"
-tv_dir     = "/mnt/network01/Media/TV"
+movies_dir = "/mnt/media/Movies"
+tv_dir     = "/mnt/media/TV"
 device     = "/dev/sr0"
 
 [encoding]
