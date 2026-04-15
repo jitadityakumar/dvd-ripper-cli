@@ -122,3 +122,66 @@ python -m pytest tests/ -v
 ```
 
 Tests cover `naming`, `selector`, and the full interactive CLI flows (prompt helpers, show/season/title pickers, movie flow, TV flow). Flow tests mock the scan and encode steps so no disc or HandBrake installation is needed.
+
+---
+
+## Library utilities
+
+Three standalone scripts for converting and reorganising an existing media library. They read paths from `config.toml` and are independent of the main ripping flow.
+
+### convert_library.py — batch convert existing files to MP4
+
+Scans a library for non-MP4 video files and converts them using HandBrakeCLI, then optionally stitches multi-part films into a single file.
+
+```
+python3 convert_library.py --init    # scan library, create conversion_log.json + dashboard.html
+python3 convert_library.py --test    # convert one file per extension (keeps originals)
+python3 convert_library.py --batch   # convert all pending files, delete originals on success
+python3 convert_library.py --stitch  # join multi-part films (cd1/cd2, VOBs) into one MP4
+```
+
+Progress is written to `conversion.log`. State is tracked in `conversion_log.json` so a crashed or interrupted batch can be resumed — re-run `--batch` and it skips already-converted files.
+
+### rename_movies.py — rename Movies library to Plex-standard structure
+
+Queries the Plex API for matched titles and reorganises your Movies folder into:
+
+```
+Movies/
+  Movie Name (Year)/
+    Movie Name (Year).mp4
+```
+
+Requires a `[plex]` section in `config.toml`:
+
+```toml
+[plex]
+url            = "http://localhost:32400"
+token          = "your-plex-token"
+movies_section = "1"
+tv_section     = "2"
+```
+
+```
+python3 rename_movies.py          # dry-run — show proposed moves, touch nothing
+python3 rename_movies.py --apply  # execute
+```
+
+Files not matched by Plex are listed for manual review and left untouched.
+
+### rename_tv.py — rename TV library to Plex-standard structure
+
+Queries Plex and renames the TV library in three passes:
+
+1. Show folders → `Show Name (Year)/`
+2. Season folders → `Season 01/`
+3. Episode files → `Show Name (Year) - S01E01 - Episode Title.mp4`
+
+Uses folder-level renames in passes 1 and 2 so all companion files (subtitles, artwork) move with their folder automatically.
+
+```
+python3 rename_tv.py          # dry-run
+python3 rename_tv.py --apply  # execute
+```
+
+Unmatched video files are reported separately and left in place.
