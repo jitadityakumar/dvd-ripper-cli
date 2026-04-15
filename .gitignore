@@ -8,8 +8,16 @@ config.toml
 dvd-ripper.log
 last-scan.log
 
+# Batch conversion tracking (generated, local only)
+conversion_log.json
+conversion.log
+dashboard.html
+batch.md
+
 # Dev notes
 plan.md
+stitch_cleanup.txt
+*.pid
 
 # Claude Code local settings
 .claude/
